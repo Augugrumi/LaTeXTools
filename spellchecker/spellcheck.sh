@@ -1,11 +1,13 @@
 #!/bin/bash
 
-for i in $(git diff-tree --no-commit-id --name-only -r HEAD | grep .tex);
+reporoot=$(git rev-parse --show-toplevel)
+for i in "$reporoot"/res/sections/*.tex
 do
-    if [ "$i" != "config/config.tex" ] && [ "$i" != "config/package.tex" ] && [ "$i" != "main.tex" ]
+    filenumber=$(basename $i | cut -f1 -d"-")
+    if [ "$filenumber" -gt "6" ]  && [ "$filenumber" -lt "90" ]
     then
 	echo "Checking file $i"
-	tmp=$(cat $i | aspell -t -a --lang=$1 --add-extra-dicts="`pwd`/dictionary.$1.pws" | grep -v "*" | grep -v "@" | sed '/^\s*$/d')
+	tmp=$(cat $i | aspell -t -a --lang=$1 --add-extra-dicts="$reporoot/dictionary.$1.pws" | grep -v "*" | grep -v "@" | sed '/^\s*$/d')
 	echo "List of errors detected for $i"
 	echo "$tmp"
 	echo "End of list for $i"
