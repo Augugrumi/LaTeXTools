@@ -8,7 +8,7 @@ do
     if [ "$filenumber" -gt "6" ]  && [ "$filenumber" -lt "90" ]
     then
 	echo "Checking file $i"
-	tmp=$(cat $i | aspell -t -a --lang=$1 --add-extra-dicts="$reporoot/dictionary.$1.pws" | grep -v "*" | grep -v "@" | sed '/^\s*$/d')
+	tmp=$(cat $i | aspell -t -a --lang=$1 --add-extra-dicts="$reporoot/dictionary.$1.pws" | grep -v "*" | grep -v "@" | grep -v "+" | sed '/^\s*$/d')
 	echo "List of errors detected for $filebasename"
 	echo "$tmp"
 	echo "End of list for $filebasename"
